@@ -124,7 +124,7 @@ export interface IAbWordSearchResponse extends IFormResponse {
 }
 ```
 
-We add few imports from the e1-service and then define two interfaces, one for the grid row data with a definition for the fields we are interested in and another with a definition for response.  
+We add few imports from the e1-service and then define two interfaces, one for the grid row data with a definition for the fields we are interested in and another with a definition for form.  
 We can now use this in our app, so in `home.ts` add the following code:
 
 ```javascript
