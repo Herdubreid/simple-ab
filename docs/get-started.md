@@ -191,4 +191,4 @@ Once the app has re-loaded, it should now show the AIS version we've been given.
 What we've done here is injected the Redux Store into our class and used its `select` method to read the `aisVersion` member into our `aisVersion` variable. The `aisVersion` value is then displayed on our `home.html` page with the `{{ aisVersion | async }}`.  
 The important thing to pay attention here is that the `aisVersion` variable is of type `any`, not `string` as you might have expected.  And the `| asyn` syntax used when it's referenced on the `home.html` page.  Variable type `any` just means that it can take any form so when it's assigned by the `store.select` statement it takes the form of `Observable`.  It can be thought of as a variable that notifies its users when it changes -- hence the `| async` syntax.
 
-[Next - Call A/B Word Search](call-addressbok.md)
+[Next - Call A/B Word Search](call-addressbook.md)
