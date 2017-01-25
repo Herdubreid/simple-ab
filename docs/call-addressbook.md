@@ -174,3 +174,5 @@ The `<ion-list>, <ion-item> and <ion-label>` are display tags provided the Ionic
 Our app should now return the following result:  
 ![App Response](app-response.png)  
 The last thing needed to make the app useful, is to let the search string be a user input.
+
+[Next - Interactive Search](interactive-search.md)

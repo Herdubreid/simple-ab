@@ -149,7 +149,7 @@ This may look odd to someone not familiar with JavaScript, it has certainly take
 The `console.log` function prints its message on the Console of the browser's 'Developer Tools' (in Chrome, right-click the window content and select 'Inspect').  
 
 #### Fetching data from Redux
-The addition of the callback gives use the ability to build logic based on whether the call was successful or failed.  But we also need the returned config of the call so we can display the AIS version.  This is where Redux comes into play.  
+The addition of the callback gives us the ability to build logic based on whether the call was successful or failed.  But we also need the returned config of the call so we can display the AIS version.  This is where Redux comes into play.  
 For this, you need Chrome with the `Redux DevTools` extension.  If you open up the `Redux DevTools` and display on the right, with the Inspect Console in the middle, your screen should look something like this.  
 ![defaultconfig](redux-config.png)  
 If you recall the definition of the Redux Store earlier:
@@ -190,3 +190,5 @@ And change the `ion-content` of our `home.html` file to the following:
 Once the app has re-loaded, it should now show the AIS version we've been given.  
 What we've done here is injected the Redux Store into our class and used its `select` method to read the `aisVersion` member into our `aisVersion` variable. The `aisVersion` value is then displayed on our `home.html` page with the `{{ aisVersion | async }}`.  
 The important thing to pay attention here is that the `aisVersion` variable is of type `any`, not `string` as you might have expected.  And the `| asyn` syntax used when it's referenced on the `home.html` page.  Variable type `any` just means that it can take any form so when it's assigned by the `store.select` statement it takes the form of `Observable`.  It can be thought of as a variable that notifies its users when it changes -- hence the `| async` syntax.
+
+[Next - Call A/B Word Search](call-addressbok.md)
