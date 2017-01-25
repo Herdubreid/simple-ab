@@ -11,11 +11,18 @@ import { AbWordSearchRequest, IAbWordSearchResponse } from '../../e1/ab-word-sea
 export class HomePage {
   aisVersion: any;
   abWordSearchResponse: IAbWordSearchResponse;
+  search(searchEvent) {
+    if (searchEvent.target.value && searchEvent.target.value.trim().length > 2) {
+      let search = new AbWordSearchRequest(searchEvent.target.value.trim() + '*');
+      this.form.request = search;
+      this.e1.call(this.form);
+    }
+  }
   constructor(
     store: Store<{ server: IServerState }>,
     signon: SignonService,
-    form: FormService,
-    e1: E1HelperService
+    public form: FormService,
+    public e1: E1HelperService
   ) {
     this.aisVersion = store.select<string>('server', 'defaultconfig', 'aisVersion');
     store.select<IAbWordSearchResponse>('server', 'formResponse')
@@ -25,8 +32,6 @@ export class HomePage {
       {
         success: () => {
           console.log('Valid Url!');
-          form.request = new AbWordSearchRequest('peter');
-          e1.call(form);
         },
         error: (msg) => {
           console.log('Error in Url:', msg);

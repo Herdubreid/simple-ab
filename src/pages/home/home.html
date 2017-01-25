@@ -9,6 +9,7 @@
 <ion-content padding>
   <h3>{{ aisVersion | async }}</h3>
   <h4>{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title }}</h4>
+  <ion-searchbar *ngIf="aisVersion | async" (ionInput)="search($event)" placeholder="A/B Word Search"></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let row of abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.data.gridData.rowset">
       <ion-label>
