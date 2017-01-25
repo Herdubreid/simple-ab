@@ -148,7 +148,45 @@ signon.testUrl(
 This may look odd to someone not familiar with JavaScript, it has certainly taken me some time to get used to this syntax.  But what's happened here is that the second parameter is a class with the member functions `success()` and `error(msg: any)`.  
 The `console.log` function prints its message on the Console of the browser's 'Developer Tools' (in Chrome, right-click the window content and select 'Inspect').  
 
-#### Tracing with Redux
+#### Fetching data from Redux
 The addition of the callback gives use the ability to build logic based on whether the call was successful or failed.  But we also need the returned config of the call so we can display the AIS version.  This is where Redux comes into play.  
 For this, you need Chrome with the `Redux DevTools` extension.  If you open up the `Redux DevTools` and display on the right, with the Inspect Console in the middle, your screen should look something like this.  
 ![defaultconfig](redux-config.png)  
+If you recall the definition of the Redux Store earlier:
+
+```javascript
+    StoreModule.provideStore({ server: serverAction }, { server: initialServerState }),
+```
+
+You can see that our `State` has a `server` member and below it is `defaultconfig` with the result from our `testUrl` call.  The `defaulconfig` has a member called `aisVersion`, which is the value that we want to display in our app.  
+Make the following changes to our `home.ts` file:
+
+```javascript
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store'; // <--- Add
+import { SignonService, IServerState } from 'e1-service';
+
+@Component({
+  selector: 'page-home',
+  templateUrl: 'home.html'
+})
+export class HomePage {
+  aisVersion: any;  // <--- Add
+  constructor(
+    store: Store<{ server: IServerState }>, // <--- Add
+    signon: SignonService
+  ) {
+    this.aisVersion = store.select<string>('server', 'defaultconfig', 'aisVersion'); // <--- Add
+```
+
+And change the `ion-content` of our `home.html` file to the following:
+
+```html
+<ion-content padding>
+  <h3>{{ aisVersion | async }}</h3>
+</ion-content>
+```
+
+Once the app has re-loaded, it should now show the AIS version we've been given.  
+What we've done here is injected the Redux Store into our class and used its `select` method to read the `aisVersion` member into our `aisVersion` variable. The `aisVersion` value is then displayed on our `home.html` page with the `{{ aisVersion | async }}`.  
+The important thing to pay attention here is that the `aisVersion` variable is of type `any`, not `string` as you might have expected.  And the `| asyn` syntax used when it's referenced on the `home.html` page.  Variable type `any` just means that it can take any form so when it's assigned by the `store.select` statement it takes the form of `Observable`.  It can be thought of as a variable that notifies its users when it changes -- hence the `| async` syntax.
