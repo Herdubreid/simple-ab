@@ -80,12 +80,12 @@ And add the modules to the imports section:
   imports: [
     IonicModule.forRoot(MyApp)
     E1ServiceModule,
-    StoreModule.provideStore({ server: serverAction }, initialServerState),
+    StoreModule.provideStore({ server: serverAction }, { server: initialServerState }),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
 ```
 
-The E1 Service Module is now ready to be used by the apps components.
+The E1 Service Module is now ready to be used by the app's components.
 
 ## Verify AIS availability
 Before calling the Address Book, it's a good idea to validate the Url we've been given.  
@@ -113,7 +113,7 @@ So where is the result of the call?  Traditional function calls return something
 The thing to keep in mind here is that our app is single-threaded. If `testUrl` would return with a true or false result for example, it would need to hang onto the thread until it has completed the call to AIS and evaluated the response.  In the meantime the app is unresponsive, giving the impression of poor performance or even having crashed.  
 The solution is using what I like to call:
 
- >the recruiter - don't call us, we'll call you
+ >the agent - don't call us, we'll call you
 
 The programming term is >>callbacks<<, where a function to call is a parameter to a function.  
 The signature of the `testUrl` function is:
@@ -147,3 +147,8 @@ signon.testUrl(
 ```
 This may look odd to someone not familiar with JavaScript, it has certainly taken me some time to get used to this syntax.  But what's happened here is that the second parameter is a class with the member functions `success()` and `error(msg: any)`.  
 The `console.log` function prints its message on the Console of the browser's 'Developer Tools' (in Chrome, right-click the window content and select 'Inspect').  
+
+#### Tracing with Redux
+The addition of the callback gives use the ability to build logic based on whether the call was successful or failed.  But we also need the returned config of the call so we can display the AIS version.  This is where Redux comes into play.  
+For this, you need Chrome with the `Redux DevTools` extension.  If you open up the `Redux DevTools` and display on the right, with the Inspect Console in the middle, your screen should look something like this.  
+![defaultconfig](redux-config.png)  

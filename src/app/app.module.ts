@@ -16,7 +16,7 @@ import { HomePage } from '../pages/home/home';
   imports: [
     IonicModule.forRoot(MyApp),
     E1ServiceModule,
-    StoreModule.provideStore({ server: serverAction }, initialServerState),
+    StoreModule.provideStore({ server: serverAction }, { server: initialServerState }),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   bootstrap: [IonicApp],
