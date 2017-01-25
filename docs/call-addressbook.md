@@ -3,9 +3,9 @@ We ended the [get started](get-started.md) exercise with a working app that vali
 Now we can move on to our Address Book.
 
 #### Get the e1-helper
-We've imported the E1 Service Module as a contained library that provides us with the AIS service calls that we need.  We don't need to know the details of how the calls are made or customise their behavior.  We only need the call signatures for the implementations.  
-When it comes to the implementation we however need the actual code -- but also don't want to have to rewrite the same logic again and again.  
-This might be a shock to purists, but the plain copy-and-paste is a very efficient way of re-using code.  [GitHub](https://github.com) has what they call Gist for the purpose of sharing commonly used code-snippets.  My Gist has what I call [e1-helper](https://gist.github.com/Herdubreid/e7609368ac889103c8a74309d09c7be7) functions encapsulate the authentication into a form request.  
+We've imported the E1 Service Module as a contained library that provides us with the AIS service calls that we need.  We don't need to know the details of how the calls are made or need to customise their behavior.  We only need the call signatures for the implementations.  
+When it comes to the implementation we however want the actual code -- but also don't want to have to rewrite the same logic again and again.  
+This might be a shock to purists, but the plain copy-and-paste is a very efficient way of re-using code.  [GitHub](https://github.com) has what they call Gist for the purpose of sharing commonly used code-snippets.  My Gist has what I call [e1-helper](https://gist.github.com/Herdubreid/e7609368ac889103c8a74309d09c7be7) functions that encapsulate the authentication into a form request.  
 The justification for these functions is that a mobile app can be in three authenticated states:
 
     1. Not Authenticated yet (no AIS token)
@@ -30,28 +30,29 @@ The E1 application we want to use is 'A/B Word Search' (P01BDWRD).  Create a new
 And add the following code:
 
 ```javascript
-import { FormRequest, FormAction } from 'e1-service';
+import { FormRequest } from 'e1-service';
 
 export class AbWordSearchRequest extends FormRequest {
     constructor(search: string) {
         super();
         this.formName = 'P01BDWRD_W01BDWRDA';
         this.formServiceAction = 'R';
-        this.formActions = new Array<FormAction>();
-        this.formActions.push({
-            controlID: '18',
-            command: 'SetControlValue',
-            value: search
-        });
-        this.formActions.push({
-            controlID: 15,
-            command: 'DoAction'
-        })
+        this.formActions = [
+            {
+                controlID: '18',
+                command: 'SetControlValue',
+                value: search
+            },
+            {
+                controlID: 15,
+                command: 'DoAction'
+            }
+        ];
     }
 }
 ```
 
-The `AbWordSearchRequest` class encapsulates the information needed for the request.  We pass it a search word string which gets passed to `controlID` 18 and press the find button with is `controlID` 15.
+The `AbWordSearchRequest` class encapsulates the information needed for the request.  We pass it a search word string which gets passed to `controlID` 18 and press the find button which is `controlID` 15.
 
 #### Make the call
 We are now ready to create our request for AIS.  
@@ -82,8 +83,8 @@ export class HomePage {
       {
         success: () => {
           console.log('Valid Url!');
-          form.request = new AbWordSearchRequest('peter');  // <--- Look for peter
-          e1.call(form);  // <--- make the request with the e1-helper
+          form.request = new AbWordSearchRequest('peter');  // <--- 1st, request to look for peter
+          e1.call(form);  // <--- 2nd, make the request with the e1-helper
         },
         error: (msg) => {
           console.log('Error in Url:', msg);
@@ -92,3 +93,12 @@ export class HomePage {
   }
 }
 ````
+
+We make our request inside the `success` return so that it only gets called once the url has been validated.  First we create an instance of our 'A/B Word Search' with 'peter' as the search word and then we use the `e1-helper` to make the request with the `e1.call(form)` function.  
+Once this has been saved and re-build, our app should prompt you for credentials.  
+![Signon](signon.png)
+
+#### Review the response
+As before with our defaultconfig call, we haven't looked at the response yet.  So lets look at the Redux Store with the `Redux DevTools` extension.  
+![response](response.png)  
+The `server` now has a new element called `formResponse` and if we drill down to the `rowset` member we can see that 'peter' returned 3 rows.
