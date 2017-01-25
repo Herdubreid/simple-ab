@@ -51,4 +51,5 @@ Because we are calling `form` and `e1` from a member function of our class, we n
 The search function waits until at least 3 characters have been entered in the search box and then appends it with `*` and makes the form request.  
 The result is displayed using the same logic as before.  
 ![Search for Paul](search-for-paul.png)
+The final piece is to get this onto a mobile device.
 
