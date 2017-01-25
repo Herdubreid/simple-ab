@@ -101,4 +101,76 @@ Once this has been saved and re-build, our app should prompt you for credentials
 #### Review the response
 As before with our defaultconfig call, we haven't looked at the response yet.  So lets look at the Redux Store with the `Redux DevTools` extension.  
 ![response](response.png)  
-The `server` now has a new element called `formResponse` and if we drill down to the `rowset` member we can see that 'peter' returned 3 rows.
+The `server` now has a new element called `formResponse` and if we drill down to the `rowset` member we can see that 'peter' returned 3 rows which we want our app to display.
+
+#### De-structure the response
+The response is in what's called JSON format.  To work with it in our code we can define an Interface for it with the information we are interested in.  
+Open the `src/e1/ab-word-search.ts` file and add the following code:
+
+```javascript
+import { FormRequest, IFormResponse, IForm, IFormData, IRow, IValue } from 'e1-service';
+
+export interface IAbWordSearchRow extends IRow {
+    mnAddressNumber_21: IValue;
+    sAlphaName_50: IValue;
+    sPrefix_29: IValue;
+    sPhoneNumber_30: IValue;
+    sAddressLine1_31: IValue;
+    sCity_32: IValue;
+}
+
+export interface IAbWordSearchResponse extends IFormResponse {
+    fs_P01BDWRD_W01BDWRDA: IForm<IFormData<IAbWordSearchRow>>
+}
+```
+
+We add few imports from the e1-service and then define two interfaces, one for the grid row data with a definition for the fields we are interested in and another with a definition for response.  
+We can now use this in our app, so in `home.ts` add the following code:
+
+```javascript
+import { AbWordSearchRequest, IAbWordSearchResponse } from '../../e1/ab-word-search'; // ---> import the response interface
+
+@Component({
+  selector: 'page-home',
+  templateUrl: 'home.html'
+})
+export class HomePage {
+  aisVersion: any;
+  abWordSearchResponse: IAbWordSearchResponse;  // --> Add it as member variable
+  constructor(
+    store: Store<{ server: IServerState }>,
+    signon: SignonService,
+    form: FormService,
+    e1: E1HelperService
+  ) {
+    this.aisVersion = store.select<string>('server', 'defaultconfig', 'aisVersion');
+    store.select<IAbWordSearchResponse>('server', 'formResponse')
+      .subscribe(response => this.abWordSearchResponse = response);  // ---> Assign the response to our member variable
+````
+
+Since we are only going to display the response values, we could make it `Observable` like the `aisVersion`, but the purpose here is to show how we can also extract the response as variable that we could use in our code.  
+The `subscribe` method is similar to the `| async` in that it sets our `abWordSearchResponse` whenever it changes.  
+Now open the `home.html` file and add the following code:
+
+```html
+<ion-content padding>
+  <h3>{{ aisVersion | async }}</h3>
+  <h4>{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title }}</h4>
+  <ion-list>
+    <ion-item *ngFor="let row of abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.data.gridData.rowset">
+      <ion-label>
+        {{ row.mnAddressNumber_21.value }}
+      </ion-label>
+      <div item-content>
+        {{ row.sAlphaName_50.value }}
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+```
+
+We start by showing the title of the E1 app.  Compared to the syntax for the `aisVersion` we don't need the `| async` parameter and the `?` after `abWordSearchResponse` indicates that the parameter that follows might not be there (it doesn't get assigned until after the form request call returns).  
+The `<ion-list>, <ion-item> and <ion-label>` are display tags provided the Ionic framework and the `let row of abWordSearchResponse...` code iterates through the rowset parameter of the response and creates `<ion-item>` for each with the address number and alpha name values.  
+Our app should now return the following result:  
+![App Response](app-response.png)  
+The last thing needed to make the app useful, is to let the search string be a user input.
