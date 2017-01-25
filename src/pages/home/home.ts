@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SignonService, IServerState } from 'e1-service';
+import { SignonService, FormService, IServerState } from 'e1-service';
+import { E1HelperService } from '../../e1/e1-helper';
+import { AbWordSearchRequest } from '../../e1/ab-word-search';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +12,9 @@ export class HomePage {
   aisVersion: any;
   constructor(
     store: Store<{ server: IServerState }>,
-    signon: SignonService
+    signon: SignonService,
+    form: FormService,
+    e1: E1HelperService
   ) {
     this.aisVersion = store.select<string>('server', 'defaultconfig', 'aisVersion');
     signon.testUrl(
@@ -18,6 +22,8 @@ export class HomePage {
       {
         success: () => {
           console.log('Valid Url!');
+          form.request = new AbWordSearchRequest('peter');
+          e1.call(form);
         },
         error: (msg) => {
           console.log('Error in Url:', msg);

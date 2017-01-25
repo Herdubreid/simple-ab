@@ -37,9 +37,9 @@ Once the `ionic start` script has completed, start Visual Code and open the `sim
 A number of folders and files have been created, the the most important being the `src` folder where the source code is.  
 The `blank` parameter of the `ionic start` script created a no-frills application with its single page under `src/pages/home`.  The page has three files:
 
-* `home.html` : The visual part or template component.
-* `home.scss` : The styling of the template.
-* `home.ts` : The logic, or functional component.
+  * `home.html` : The visual part or template component
+  * `home.scss` : The styling of the template
+  * `home.ts` : The logic, or functional component
 
 To see how this works, type:
 

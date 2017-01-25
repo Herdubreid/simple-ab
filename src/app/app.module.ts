@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { E1ServiceModule, serverAction, initialServerState } from 'e1-service';
+import { E1HelperService } from '../e1/e1-helper';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -24,6 +25,9 @@ import { HomePage } from '../pages/home/home';
     MyApp,
     HomePage
   ],
-  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }]
+  providers: [
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    E1HelperService
+  ]
 })
 export class AppModule { }
