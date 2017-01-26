@@ -24,6 +24,6 @@ The build will create `android-release-unsigned.apk` in the `platforms/android/b
 #### Prepare the package
 The package needs to be signed with your private key and 'zip align it'.  
 For details, see [Ionic: 6. Publishing your app](https://ionicframework.com/docs/guide/publishing.html)  
-My signed and zip-aligned SimpleAB can now be [Installed on Android](SimpleAB.apk)
+My signed and zip-aligned SimpleAB can now be <a href="SimpleAB.apk" download>Installed on Android</a>
 
 ### Install the package
