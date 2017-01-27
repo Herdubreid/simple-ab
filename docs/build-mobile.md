@@ -1,4 +1,4 @@
-[Home](../readme.md)
+[Table of contents](../readme.md)
 
 ## Build Simple AB for mobile device
 Our builds so far have only been for the browser, which is perfect for prototyping and testing.  
