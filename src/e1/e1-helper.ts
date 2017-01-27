@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController, LoadingController } from 'ionic-angular';
+import { AlertController, LoadingController, Alert } from 'ionic-angular';
 import { SignonService, IServiceCallback } from 'e1-service';
 /*
   Helper functions for e1-service.
@@ -44,11 +44,12 @@ export interface IServiceCall {
 }
 @Injectable()
 export class E1HelperService {
+  prompt: Alert;
   callWithSignonPrompt(service: IServiceCall, callback: IServiceCallback = {}) {
-    if (this.signon.inCall) {
+    if (this.prompt) {
       return;
     }
-    let prompt = this.promptCtrl.create(signonPrompt(
+    this.prompt = this.promptCtrl.create(signonPrompt(
       cred => {
         if (cred.username && cred.password) {
           let loading = this.loadCtrl.create({
@@ -60,17 +61,20 @@ export class E1HelperService {
           this.signon.authenticate({
             success: () => {
               service.call(callback);
-              prompt.dismiss();
+              this.prompt.dismiss()
+                .then(() => this.prompt = null);
             },
-            error: msg => prompt.setMessage('Signon failed: ' + msg.statusText),
+            error: msg => this.prompt.setMessage('Signon failed: ' + msg.statusText),
             done: () => loading.dismiss()
           });
         }
         return false;
       },
-      () => { }
+      () => {
+        this.prompt = null;
+       }
     ));
-    prompt.present();
+    this.prompt.present();
   }
   callWithSignon(service: IServiceCall, callback: IServiceCallback = {}) {
     if (this.signon.inCall) {
