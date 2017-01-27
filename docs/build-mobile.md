@@ -49,3 +49,6 @@ $ ionic build ios --release
 ```
 
 The remaining build and deployment task must be performed with Xcode, for reference see [Ionic: 6. Publishing your app](https://ionicframework.com/docs/guide/publishing.html)
+
+[Home](../readme.md)
+
