@@ -68,7 +68,7 @@ $ npm install e1-service --save
 
 This makes the E1 Service Module available in your project.  To tell the app to load it, open `src/app/modules.ts` and add the following import definitions:
 
-```javascript
+```typescript
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { E1ServiceModule, serverAction, initialServerState } from 'e1-service';
@@ -76,7 +76,7 @@ import { E1ServiceModule, serverAction, initialServerState } from 'e1-service';
 
 And add the modules to the imports section:
 
-```javascript
+```typescript
   imports: [
     IonicModule.forRoot(MyApp)
     E1ServiceModule,
@@ -92,7 +92,7 @@ Before calling the Address Book, it's a good idea to validate the Url we've been
 So what we want to do is to call the `defaultconfig` service and display the AIS version number.  
 Open the `src/home/home.ts` file and changes its content to:
 
-```javascript
+```typescript
 import { Component } from '@angular/core';
 import { SignonService } from 'e1-service';
 
@@ -118,13 +118,13 @@ The solution is using what I like to call:
 The programming term is >>callbacks<<, where a function to call is a parameter to a function.  
 The signature of the `testUrl` function is:
 
-```javascript
+```typescript
 testUrl(baseUrl: string, callback?: IServiceCallback): void;
 ```
 
 The `?` following the callback parameter means that it is optional.  The `IServiceCallback` interface has the following definition:
 
-```javascript
+```typescript
 export interface IServiceCallback {
     success?: any;
     error?: any;
@@ -133,7 +133,7 @@ export interface IServiceCallback {
 ```
 The `success`, `error` and `done` members are functions to call upon successful or error function result and when the function is done executing.  If we want to know if our `testUrl` succeeded or failed, we can change the call to:
 
-```javascript
+```typescript
 signon.testUrl(
     'https://jde02.uxcredrock.com/mobile/',
     {
@@ -154,14 +154,14 @@ For this, you need Chrome with the `Redux DevTools` extension.  If you open up t
 ![defaultconfig](redux-config.png)  
 If you recall the definition of the Redux Store earlier:
 
-```javascript
+```typescript
     StoreModule.provideStore({ server: serverAction }, { server: initialServerState }),
 ```
 
 You can see that our `State` has a `server` member and below it is `defaultconfig` with the result from our `testUrl` call.  The `defaulconfig` has a member called `aisVersion`, which is the value that we want to display in our app.  
 Make the following changes to our `home.ts` file:
 
-```javascript
+```typescript
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store'; // <--- Add
 import { SignonService, IServerState } from 'e1-service';

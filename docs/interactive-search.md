@@ -15,7 +15,7 @@ Search is such a common feature so Ionic have a standard search box that we can 
 Because we want to call e1 as a response to text being entered into the text box, we need something to prevent calls unless a valid url has been entered.  One way of doing it to use the `*ngIf` directive which doesn't show the element unless the right hand evaluates to true.  In the above example the `aisVersion` remains `undefined` until the defaultconfig request has successfully returned, and evaluates to `false`. Once the defaultconfig has value it will evaluate to `true` and the search box becomes visible.  
 We also need to add the `search($event)` function to our class, so open `home.ts` and make the following changes:
 
-```javascript
+```typescript
 export class HomePage {
   aisVersion: any;
   abWordSearchResponse: IAbWordSearchResponse;
