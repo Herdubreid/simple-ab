@@ -1,3 +1,5 @@
+[Table of contents](../readme.md)
+
 ## Add the search as user input
 We ended the [call address book](call-addressbook.md) with a call to the 'A/B Word Search' form for 'peter' and displayed the result.  
 To make the app useful we need to make it interactive by letting the user type in the search word.

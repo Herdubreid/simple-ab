@@ -1,3 +1,5 @@
+[Table of contents](../readme.md)
+
 ## Get the Address Book
 We ended the [get started](get-started.md) exercise with a working app that validates the AIS url and displays its version.  
 Now we can move on to our Address Book.
