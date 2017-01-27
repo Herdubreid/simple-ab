@@ -1,3 +1,5 @@
+[Home](../readme.md)
+
 ## Build Simple AB for mobile device
 Our builds so far have only been for the browser, which is perfect for prototyping and testing.  
 Now we want to try it out on a mobile device.  
@@ -49,6 +51,4 @@ $ ionic build ios --release
 ```
 
 The remaining build and deployment task must be performed with Xcode, for reference see [Ionic: 6. Publishing your app](https://ionicframework.com/docs/guide/publishing.html)
-
-[Home](../readme.md)
 
