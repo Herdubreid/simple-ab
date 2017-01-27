@@ -7,7 +7,6 @@ import { SignonService, IServiceCallback } from 'e1-service';
     Use the call function with the service to use and callback parameters.
     If no token, then the call is directed to callWithSignonPrompt.
     If call returns error, then try signon and call the service again.
-  callWithSignonPrompt: Display signon
 */
 
 function signonPrompt(ok, cancel, msg = ''): any {
@@ -45,13 +44,10 @@ export interface IServiceCall {
 }
 @Injectable()
 export class E1HelperService {
-  callWithSignonInProgress: boolean = false;
-  callWithSignonPromptInProgress: boolean = false;
   callWithSignonPrompt(service: IServiceCall, callback: IServiceCallback = {}) {
-    if (this.callWithSignonPromptInProgress) {
+    if (this.signon.inCall) {
       return;
     }
-    this.callWithSignonPromptInProgress = true;
     let prompt = this.promptCtrl.create(signonPrompt(
       cred => {
         if (cred.username && cred.password) {
@@ -65,7 +61,6 @@ export class E1HelperService {
             success: () => {
               service.call(callback);
               prompt.dismiss();
-              this.callWithSignonPromptInProgress = false;
             },
             error: msg => prompt.setMessage('Signon failed: ' + msg.statusText),
             done: () => loading.dismiss()
@@ -73,21 +68,17 @@ export class E1HelperService {
         }
         return false;
       },
-      () => {
-        this.callWithSignonPromptInProgress = false;
-      }
+      () => { }
     ));
     prompt.present();
   }
   callWithSignon(service: IServiceCall, callback: IServiceCallback = {}) {
-    if (this.callWithSignonInProgress) {
+    if (this.signon.inCall) {
       return;
     }
-    this.callWithSignonInProgress = true;
     this.signon.authenticate({
       success: () => service.call(callback),
-      error: () => this.callWithSignonPrompt(service, callback),
-      done: this.callWithSignonInProgress = false
+      error: () => this.callWithSignonPrompt(service, callback)
     });
   }
   call(service: IServiceCall, callback: IServiceCallback = {}) {
