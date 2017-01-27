@@ -185,7 +185,7 @@ And change the `ion-content` of our `home.html` file to the following:
 
 ```html
 <ion-content padding>
-  <h3>{{ aisVersion | async }}</h3>
+  <h3>&#123;&#123; aisVersion | async &#125;&#125;</h3>
 </ion-content>
 ```
 
