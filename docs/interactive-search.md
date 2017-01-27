@@ -1,5 +1,5 @@
 ## Add the search as user input
-We ended the [call address book](call-addressbok.md) with a call to the 'A/B Word Search' form for 'peter' and displayed the result.  
+We ended the [call address book](call-addressbook.md) with a call to the 'A/B Word Search' form for 'peter' and displayed the result.  
 To make the app useful we need to make it interactive by letting the user type in the search word.
 
 #### Add the search box
@@ -52,4 +52,6 @@ The search function waits until at least 3 characters have been entered in the s
 The result is displayed using the same logic as before.  
 ![Search for Paul](search-for-paul.png)
 The final piece is to get this onto a mobile device.
+
+[Next - Build for mobile device](build-mobile.md)
 
