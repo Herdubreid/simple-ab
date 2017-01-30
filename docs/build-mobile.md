@@ -27,7 +27,7 @@ $ ionic build android --release
 The build will create `android-release-unsigned.apk` in the `platforms/android/build/outputs/apk` folder.  Before we can install it on our device or upload it to the Play Store, there are couple of things to do.
 
 #### Prepare the package
-The package needs to be signed with your private key and 'zip align it'.  
+The package needs to be signed with your private key and 'zip align'.  
 For details, see [Ionic: 6. Publishing your app](https://ionicframework.com/docs/guide/publishing.html)  
 My signed and zip-aligned SimpleAB can now be <a href="https://github.com/Herdubreid/simple-ab/releases/download/v0.1.0/SimpleAB.apk" download>Installed on Android</a>
 
