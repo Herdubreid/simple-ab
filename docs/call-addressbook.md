@@ -8,7 +8,7 @@ Now we can move on to our Address Book.
 We've imported the E1 Service Module as a contained library that provides us with the AIS service calls that we need.  We don't need to know the details of how the calls are made or need to customise their behavior.  We only need the call signatures for the implementations.  
 When it comes to the implementation we however want the actual code -- but also don't want to have to rewrite the same logic again and again.  
 This might be a shock to purists, but the plain copy-and-paste is a very efficient way of re-using code.  [GitHub](https://github.com) has what they call Gist for the purpose of sharing commonly used code-snippets.  My Gist has what I call [e1-helper](https://gist.github.com/Herdubreid/e7609368ac889103c8a74309d09c7be7) functions that encapsulate the authentication into a form request.  
-The justification for these functions is that a mobile app can be in three authenticated states:
+The justification for these functions is that a mobile app can be in on of three authenticated states:
 
     1. Not Authenticated yet (no AIS token)
     2. Authentication expired (AIS token expired)
