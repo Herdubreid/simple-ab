@@ -64,15 +64,15 @@ export class E1HelperService {
               this.prompt.dismiss()
                 .then(() => this.prompt = null);
             },
-            error: msg => this.prompt.setMessage('Signon failed: ' + msg.statusText),
-            done: () => loading.dismiss()
+            error: msg => { this.prompt.setMessage('Signon failed: ' + msg.statusText); },
+            done: () => { loading.dismiss(); }
           });
         }
         return false;
       },
       () => {
         this.prompt = null;
-       }
+      }
     ));
     this.prompt.present();
   }
@@ -81,13 +81,13 @@ export class E1HelperService {
       return;
     }
     this.signon.authenticate({
-      success: () => service.call(callback),
-      error: () => this.callWithSignonPrompt(service, callback)
+      success: () => { service.call(callback); },
+      error: () => { this.callWithSignonPrompt(service, callback); }
     });
   }
   call(service: IServiceCall, callback: IServiceCallback = {}) {
     let cb = Object.assign({}, callback, {
-      error: msg => this.callWithSignon(service, callback)
+      error: msg => { this.callWithSignon(service, callback); }
     });
     if (this.signon.hasToken) {
       service.call(cb)

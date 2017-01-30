@@ -9,8 +9,8 @@ Search is such a common feature so Ionic have a standard search box that we can 
 
 ```html
 <ion-content padding>
-  <h3>{{ aisVersion | async }}</h3>
-  <h4>{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title }}</h4>
+  <h3>{{ "{{ aisVersion | async "}}}}</h3>
+  <h4>{{ "{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title "}}}}</h4>
   <ion-searchbar *ngIf="aisVersion | async" (ionInput)="search($event)" placeholder="A/B Word Search"></ion-searchbar>
 ```
 
