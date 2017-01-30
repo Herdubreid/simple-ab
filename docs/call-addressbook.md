@@ -156,15 +156,15 @@ Now open the `home.html` file and add the following code:
 
 ```html
 <ion-content padding>
-  <h3>{{ aisVersion | async }}</h3>
-  <h4>{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title }}</h4>
+  <h3>{{ "{{ aisVersion | async "}}}}</h3>
+  <h4>{{ "{{ abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.title "}}}}</h4>
   <ion-list>
     <ion-item *ngFor="let row of abWordSearchResponse?.fs_P01BDWRD_W01BDWRDA.data.gridData.rowset">
       <ion-label>
-        {{ row.mnAddressNumber_21.value }}
+        {{ "{{  row.mnAddressNumber_21.value "}}}}
       </ion-label>
       <div item-content>
-        {{ row.sAlphaName_50.value }}
+        {{ "{{  row.sAlphaName_50.value "}}}}
       </div>
     </ion-item>
   </ion-list>
